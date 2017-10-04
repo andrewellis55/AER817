@@ -9,7 +9,7 @@
 #endif
 
 //Global Variable Declarations
-
+int delayTime;
 
 
 void setup() {

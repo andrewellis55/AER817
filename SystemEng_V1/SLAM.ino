@@ -1,5 +1,5 @@
 void setLocationReference(){
-  //Sets the current location to (0,0)
+  //Sets the current location to (0,0,0)
 }
 
 void updateLocation(){

@@ -1,5 +1,6 @@
 void initGlobalVariables(){
   //keeps global variable initializations in one place
+  delayTime = 1000; //milliseconds
 }
 
 void timeDelay(){
