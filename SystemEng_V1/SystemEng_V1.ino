@@ -10,7 +10,15 @@
 
 //Global Variable Declarations
 int delayTime;
+int dataSize = 5
 
+//Telemetry packet
+#define teleCount 0
+#define teleButton 1
+#define teleIMUx 2
+#define teleIMUy 3
+#define teleIMUz 4
+float telemetry[dataSize];
 
 void setup() {
   // put your setup code here, to run once:
@@ -29,6 +37,7 @@ void loop() {
   sendRadioData();
   timeDelay();
 
+  telemetry[teleCount] = telemetry[teleCount] + 1; //increment the packet counter
   
 }
 
