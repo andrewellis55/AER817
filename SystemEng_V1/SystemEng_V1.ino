@@ -10,7 +10,7 @@
 
 //Global Variable Declarations
 int delayTime;
-int dataSize = 5
+int dataSize = 5;
 
 //Telemetry packet
 #define teleCount 0
