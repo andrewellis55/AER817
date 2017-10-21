@@ -22,9 +22,13 @@ function [] = LTimer_1s(src, evt, ard, csvfile, csvfilename, handles,table_filen
             
         % This function updates table depending on packet 
         % Condition: Glider or Container column 2.
-        tableHandling(StringFromSerial, handles);
+        
+        tableHandling(StringFromSerial, handles);%needs smal changes
         Update_GUIDateTimeDisplay(handles);
-        Update_GUIgraph(handles);
-
+        Update_EEG(handles);
+        Update_GUIgraph(handles);%This function needs to be completely redone
+        
+        
+        
     end 
 end

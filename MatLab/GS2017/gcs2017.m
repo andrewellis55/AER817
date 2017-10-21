@@ -21,7 +21,7 @@ function varargout = gcs2017(varargin)
 
 % Edit the above text to modify the response to help gcs2017
 
-% Last Modified by GUIDE v2.5 18-Oct-2017 16:13:32
+% Last Modified by GUIDE v2.5 21-Oct-2017 14:35:36
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -133,23 +133,23 @@ function uipanelGlider_CreateFcn(hObject, eventdata, handles)
 
 
 % --- Executes during object deletion, before destroying properties.
-function uitableGlider_DeleteFcn(hObject, eventdata, handles)
-% hObject    handle to uitableGlider (see GCBO)
+function uitableDevice_DeleteFcn(hObject, eventdata, handles)
+% hObject    handle to uitableDevice (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 
-% --- Executes when selected cell(s) is changed in uitableGlider.
-function uitableGlider_CellSelectionCallback(hObject, eventdata, handles)
-% hObject    handle to uitableGlider (see GCBO)
+% --- Executes when selected cell(s) is changed in uitableDevice.
+function uitableDevice_CellSelectionCallback(hObject, eventdata, handles)
+% hObject    handle to uitableDevice (see GCBO)
 % eventdata  structure with the following fields (see MATLAB.UI.CONTROL.TABLE)
 %	Indices: row and column indices of the cell(s) currently selecteds
 % handles    structure with handles and user data (see GUIDATA)
 
 
 % --- Executes during object creation, after setting all properties.
-function uitableGlider_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to uitableGlider (see GCBO)
+function uitableDevice_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to uitableDevice (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -274,8 +274,8 @@ guidata(hObject, handles); % update the handles structure for the gui
 
 
 % --- Executes during object creation, after setting all properties.
-function uitableContainer_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to uitableContainer (see GCBO)
+function uitablePayload_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to uitablePayload (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -346,3 +346,11 @@ function pumEEG_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+% --- Executes on button press in pushbutton7.
+function pushbutton7_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton7 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+ConnectEEG();
