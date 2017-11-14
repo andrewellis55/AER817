@@ -1,0 +1,2 @@
+In here is just the process of getting the blink test numbers if they are ever needed.
+I dont know where to put them in the main code but I'm going to test it with more data.
