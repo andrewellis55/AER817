@@ -1,27 +1,21 @@
 void initIMU(){
   //initialization code for IMU
-    Wire.begin();
+  Wire.begin();
 
-    // Calibrate gyro and accelerometers, load biases in bias registers
-    myIMU.calibrateMPU9250(myIMU.gyroBias, myIMU.accelBias);
+// Start by performing self test and reporting values
+  myIMU.MPU9250SelfTest(myIMU.selfTest);
 
-    myIMU.initMPU9250();
-    // Initialize device for active mode read of acclerometer, gyroscope, and
-    // temperature
+  // Calibrate gyro and accelerometers, load biases in bias registers
+  myIMU.calibrateMPU9250(myIMU.gyroBias, myIMU.accelBias);
+  myIMU.initMPU9250();
 
-    // Get magnetometer calibration from AK8963 ROM
-    myIMU.initAK8963(myIMU.factoryMagCalibration);
-    // Initialize device for active mode read of magnetometer
-
-    // Get sensor resolutions, only need to do this once
-    myIMU.getAres();
-    myIMU.getGres();
-    myIMU.getMres();
-
-    // The next call delays for 4 seconds, and then records about 15 seconds of
-    // data to calculate bias and scale.
-    myIMU.magCalMPU9250(myIMU.magBias, myIMU.magScale);
-    delay(2000); // Add delay to see results before serial spew of data
+  // Get magnetometer calibration from AK8963 ROM
+  myIMU.initAK8963(myIMU.factoryMagCalibration);
+  
+  // Get sensor resolutions, only need to do this once
+  myIMU.getAres();
+  myIMU.getGres();
+  myIMU.getMres();
 }
 
 void checkPanicButton(){
@@ -36,13 +30,13 @@ void checkPanicButton(){
   }
 }
 
-
 void getGPSData(){
-  telemetry[teleGPSLat] = 0;
-  telemetry[teleGPSLong] = 0;
-  telemetry[teleGPSAlt] = 1;
+  telemetry[teleGPSLat] = 9999;
+  telemetry[teleGPSLong] = 9999;
+  telemetry[teleGPSAlt] = 9999;
 }
 
 void getBMPData(){
-  telemetry[teleBMPAlt] = 0;
+  telemetry[teleBMPAlt] = 9999;
 }
+
