@@ -13,25 +13,27 @@ void updateLocation() {
     myIMU.ax = (float)myIMU.accelCount[0] * myIMU.aRes * g; // - myIMU.accelBias[0];
     myIMU.ay = (float)myIMU.accelCount[1] * myIMU.aRes * g; // - myIMU.accelBias[1];
     myIMU.az = (float)myIMU.accelCount[2] * myIMU.aRes * g - g; // - myIMU.accelBias[2];
+  
+
+  // Gets magnometer data
+    myIMU.readMagData(myIMU.magCount);  // Read the x/y/z adc values
+    myIMU.mx = (float)myIMU.magCount[0] * myIMU.mRes
+               * myIMU.factoryMagCalibration[0] - myIMU.magBias[0];
+    myIMU.my = (float)myIMU.magCount[1] * myIMU.mRes
+               * myIMU.factoryMagCalibration[1] - myIMU.magBias[1];
+    myIMU.mz = (float)myIMU.magCount[2] * myIMU.mRes
+               * myIMU.factoryMagCalibration[2] - myIMU.magBias[2];
   }
-
-  imuTimeDelay(); // delays 100 ms
-
-  //  //Gets second reading of acceleration form IMU
-  //  if (myIMU.readByte(MPU9250_ADDRESS, INT_STATUS) & 0x01)
-  //  {
-  //    myIMU.readAccelData(myIMU.accelCount);  // Read the x/y/z adc values
-  //    myIMU2.ax = (float)myIMU.accelCount[0] * myIMU.aRes * g; // - myIMU.accelBias[0];
-  //    myIMU2.ay = (float)myIMU.accelCount[1] * myIMU.aRes * g; // - myIMU.accelBias[1];
-  //    myIMU2.az = (float)myIMU.accelCount[2] * myIMU.aRes * g - g; // - myIMU.accelBias[2];
-  //  }
+  
+//  imuTimeDelay(); // delays 100 ms
 
 #ifdef DEBUG_IMU //Outputs raw acceleration data
   telemetry[teleIMUx] = myIMU.ax;
   telemetry[teleIMUy] = myIMU.ay;
   telemetry[teleIMUz] = myIMU.az;
 
-#else //Outputs "distance" values from acceleration data
+#else //Outputs "distance" values from acceleration data 
+// Good chance this is all wrong. Also needs input from magnometer data, to be done eventually
 // IMU X DIRECTION
   if (myIMU.ax * 0.05 <= 0.05){
     telemetry[teleIMUx] = 0;
@@ -56,6 +58,5 @@ void updateLocation() {
     telemetry[teleIMUz] = myIMU.az * 0.05;
   }
 #endif
-
 }
 
