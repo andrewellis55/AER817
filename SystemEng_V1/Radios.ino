@@ -1,10 +1,3 @@
-void getRadioData(){
-  //Gets Data from the serial
-   if(Serial.available()){
-//    receiveSerialData();
-  }
-}
-
 void sendRadioData() {
   //Sends data to GS
 
@@ -17,6 +10,7 @@ void sendRadioData() {
   Serial1.println(' ');
 
   //DEBUG OUTPUT
+  #ifdef DEBUG
   for(int i = 0; i < teleSize; i++)
   {
     Serial.print(telemetry[i]);
@@ -24,5 +18,5 @@ void sendRadioData() {
   }
   
   Serial.println(' ');
-
+  #endif
 }
