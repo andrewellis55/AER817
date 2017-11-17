@@ -16,6 +16,9 @@ void initIMU(){
   myIMU.getAres();
   myIMU.getGres();
   myIMU.getMres();
+
+  // Calibrates magnometer
+  myIMU.magCalMPU9250(myIMU.magBias, myIMU.magScale);
 }
 
 void checkPanicButton(){
