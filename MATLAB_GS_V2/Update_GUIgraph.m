@@ -133,6 +133,14 @@ switch dataSource
             otherwise 
                 handles.xpayload = 0;
         end
+            case 3 % MAP AND 3D PLOT OUTPUT
+        handles.device_x = handles.deviceData(:,6);
+        handles.device_y = handles.deviceData(:,7);
+        handles.device_z = handles.deviceData(:,8);
+
+        handles.payload_x = handles.payloadData(:,5);
+        handles.payload_y = handles.payloadData(:,6);
+        handles.payload_z = handles.payloadData(:,7);  
 end
 %--
 
@@ -146,7 +154,9 @@ switch dataSource
         plot(handles.xdevice, handles.ydevice, '.-r','Parent', handles.Graph1);
     case 2    
         plot(handles.xpayload, handles.ypayload, '.-b','Parent', handles.Graph1);
-
+    case 3
+        plot3(handles.payload_x, handles.payload_y, handles.payload_z, '.-k','Parent', handles.Graph1);
+      
       
 
 
