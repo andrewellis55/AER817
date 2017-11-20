@@ -74,7 +74,8 @@ void setup() {
   #ifdef DEBUG
     Serial.begin(9600);
   #endif
-
+ Serial1.begin(9600);
+ 
   #ifdef DEVICE
     telemetry[teleDevice] = 2;
   #endif
