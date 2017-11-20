@@ -125,13 +125,13 @@ switch dataSource
             case 9
                 handles.ypayload = handles.payloadData(:,11);
             case 10
-                handles.xpayload = handles.payloadData(:,12);
+                handles.ypayload = handles.payloadData(:,12);
             case 11
-                handles.xpayload = handles.payloadData(:,13);
+                handles.ypayload = handles.payloadData(:,13);
             case 12
-                handles.xpayload = handles.payloadData(:,14);
+                handles.ypayload = handles.payloadData(:,14);
             otherwise 
-                handles.xpayload = 0;
+                handles.ypayload = 0;
         end
     case 3 % MAP AND 3D PLOT OUTPUT
         handles.device_x = handles.deviceData(:,6);
