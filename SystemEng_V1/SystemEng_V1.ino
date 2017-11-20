@@ -3,6 +3,17 @@
 #include "quaternionFilters.h"
 #include "MPU9250.h"
 
+#include "SparkFun_AK9750_Arduino_Library.h"
+
+
+
+//DeviceIMU
+#include <Wire.h>
+#include <SPI.h>
+#include <SparkFunLSM9DS1.h>
+#define LSM9DS1_M  0x1E // Would be 0x1C if SDO_M is LOW
+#define LSM9DS1_AG  0x6B // Would be 0x6A if SDO_AG is LOW
+
 #define DEBUG
 #define PAYLOAD
  
@@ -14,7 +25,9 @@ int DeviceID = 1234;
 
 float g;
 MPU9250 myIMU;
-MPU9250 myIMU2;
+LSM9DS1 DeviceIMU;
+
+AK9750 movementSensor; //Hook object to the library
   
 //Telemetry packet
 #ifdef DEVICE
@@ -87,6 +100,8 @@ void loop() {
   
   #ifdef DEVICE
     checkPanicButton();
+    getDeivceBMPData();
+    getDeviceIMUDATA();
   #endif
 
   getGPSData();
