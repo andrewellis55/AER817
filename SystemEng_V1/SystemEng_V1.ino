@@ -13,9 +13,10 @@
 #include <SparkFunLSM9DS1.h>
 #define LSM9DS1_M  0x1E // Would be 0x1C if SDO_M is LOW
 #define LSM9DS1_AG  0x6B // Would be 0x6A if SDO_AG is LOW
+#define DECLINATION -10.45 //Degrees
 
 #define DEBUG
-#define PAYLOAD
+#define DEVICE
  
 //Global Variable Declarations
 int delayTime;
@@ -43,6 +44,10 @@ AK9750 movementSensor; //Hook object to the library
   #define teleGPSLong 9
   #define teleGPSAlt 10
   #define teleSize 11
+  #define teleHPFront 0
+  #define teleHPRight 0
+  #define teleHPLeft 0
+  #define teleHPBack 0
   float telemetry[11];
 #endif
 
@@ -98,17 +103,21 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 
-  updateLocation();
+
+
   
   #ifdef DEVICE
     checkPanicButton();
-    getDeivceBMPData();
-    getDeviceIMUDATA();
+    updateDeviceLocation();
+//    getDeivceBMPData();
+//    getDeviceIMUDATA();
+//    printAttitude();
   #endif
 
 
   #ifdef PAYLOAD
-  getAKData();
+    getAKData();
+    updateLocation();
   #endif
 
   
@@ -118,7 +127,6 @@ void loop() {
   timeDelay();
 
   telemetry[teleCount] = telemetry[teleCount] + 1; //increment the packet counter
-
 }
 
 
