@@ -55,7 +55,7 @@ MPU9250 myIMU2;
 
 void setup() {
   
-  Serial1.begin(9600);
+  //Serial1.begin(9600);
 
   //Debug State Function
   #ifdef DEBUG

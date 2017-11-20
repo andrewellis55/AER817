@@ -2,7 +2,7 @@
 system('taskkill -f -im muse-player.exe ');
 system('taskkill -f -im muse-io.exe ');
 
-system('start "Running: C:\AER817\Project\Muse\muse-io.exe --no-dsp --preset AD --device Muse-4C03" "C:\AER817\Project\Muse\muse-io.exe" --osc osc.tcp://localhost:5000');
+system('start "muse-io.exe --no-dsp --preset AD --device Muse-4C03" "muse-io.exe" --osc osc.tcp://localhost:5000');
 pause(10)
 blink = 0;
 i = 1;
