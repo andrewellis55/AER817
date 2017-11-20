@@ -43,3 +43,13 @@ void getBMPData(){
   telemetry[teleBMPAlt] = 9999;
 }
 
+void initDeviceIMU(){
+  // Before initializing the IMU, there are a few settings
+  // we may need to adjust. Use the settings struct to set
+  // the device's communication mode and addresses:
+//  imu.settings.device.commInterface = IMU_MODE_I2C;
+//  imu.settings.device.mAddress = LSM9DS1_M;
+//  imu.settings.device.agAddress = LSM9DS1_AG;
+
+}
+

@@ -1,7 +1,4 @@
-#include <Wire.h>
-#include "SparkFun_AK9750_Arduino_Library.h"
 
-AK9750 movementSensor; //Hook object to the library
 
 void initAK(){
   Wire.begin();
