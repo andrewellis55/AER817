@@ -80,6 +80,7 @@ void setup() {
   #endif
   #ifdef PAYLOAD
     telemetry[teleDevice] = 1;
+    initAK();
   #endif
 
   telemetry[teleDeviceID] = DeviceID;
@@ -104,6 +105,12 @@ void loop() {
     getDeviceIMUDATA();
   #endif
 
+
+  #ifdef PAYLOAD
+  getAKData();
+  #endif
+
+  
   getGPSData();
   getBMPData();
   sendRadioData();

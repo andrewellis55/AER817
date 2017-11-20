@@ -18,7 +18,7 @@ void initIMU(){
   myIMU.getMres();
 
   // Calibrates magnometer
-  myIMU.magCalMPU9250(myIMU.magBias, myIMU.magScale);
+  // myIMU.magCalMPU9250(myIMU.magBias, myIMU.magScale);
 }
 
 void checkPanicButton(){
@@ -47,9 +47,9 @@ void initDeviceIMU(){
   // Before initializing the IMU, there are a few settings
   // we may need to adjust. Use the settings struct to set
   // the device's communication mode and addresses:
-//  imu.settings.device.commInterface = IMU_MODE_I2C;
-//  imu.settings.device.mAddress = LSM9DS1_M;
-//  imu.settings.device.agAddress = LSM9DS1_AG;
-
+  DeviceIMU.settings.device.commInterface = IMU_MODE_I2C;
+  DeviceIMU.settings.device.mAddress = LSM9DS1_M;
+  DeviceIMU.settings.device.agAddress = LSM9DS1_AG;
+  DeviceIMU.begin();
 }
 
