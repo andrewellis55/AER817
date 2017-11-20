@@ -56,6 +56,10 @@ if (ismember('1', tele{2}))
     end
    updateGUI_payloadTable(handles,matrix.payload, pk);
    
+   humanSenseData = str2num(tele{11:14});
+   
+   humanSense(handles,humanSenseData);
+   
 elseif (ismember('2', tele{2}))
 %     matrix.device(pk, 1) = str2num(tele{1});
 %     matrix.device(pk,2) = 0;
