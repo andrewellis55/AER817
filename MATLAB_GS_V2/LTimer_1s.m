@@ -8,13 +8,13 @@ function [] = LTimer_1s(src, evt, ard, csvfile, csvfilename, handles,table_filen
         display ('No New data in Serial port');
     else 
         % Open file for reading or writing
-        csvfile = fopen(csvExt, 'a+'); 
+        %csvfile = fopen(csvExt, 'a+'); 
         % Get new data to string variable from Arduino
         StringFromSerial = fscanf(ard, '%s');
-        fprintf ('%s\n',StringFromSerial);
+        %fprintf ('%s\n',StringFromSerial);
         % Append string variable to file
-        fprintf(csvfile, strcat(StringFromSerial, '\r\n')); 
-        fclose (csvfile);% CLOSE file to allow ather app access file
+       % fprintf(csvfile, strcat(StringFromSerial, '\r\n')); 
+       % fclose (csvfile);% CLOSE file to allow ather app access file
 
         % Update Functions must be below to minimize timer objects
         % This section is called every 1 sec, Therefore plots are updates 1sec
