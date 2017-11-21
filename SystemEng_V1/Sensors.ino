@@ -20,6 +20,9 @@ void initIMU(){
   // Calibrates magnometer
   // myIMU.magCalMPU9250(myIMU.magBias, myIMU.magScale);
 }
+void initDeviceBMP(){
+DeviceBMP.begin();
+}
 
 void checkPanicButton(){
   //Checks if panic button has been pressed
@@ -40,7 +43,7 @@ void getGPSData(){
 }
 
 void getDeviceBMPData(){
-  telemetry[teleBMPAlt] = DeviceBMP.readAltitude(1000);
+  telemetry[teleBMPAlt] = DeviceBMP.readAltitude(1008);
 }
 
 void initDeviceIMU(){

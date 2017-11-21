@@ -1,4 +1,4 @@
-void setLocationReference() {
+void setDeviceLocationReference() {
   //Sets the current location to (0,0,0)
 
 }
@@ -19,17 +19,21 @@ if (DeviceIMU.magAvailable())
 {
   DeviceIMU.readMag();
 }
-  
+    printAttitude(DeviceIMU.ax, DeviceIMU.ay, DeviceIMU.az, 
+                 -DeviceIMU.my, -DeviceIMU.mx, DeviceIMU.mz);              
+}
 
-// Obtain Roll Pitch Yaw of device.
-  float roll = atan2(DeviceIMU.ay, DeviceIMU.az);
-  float pitch = atan2(-DeviceIMU.ax, sqrt(DeviceIMU.ay * DeviceIMU.ay + DeviceIMU.az * DeviceIMU.az));
+
+void printAttitude(float ax, float ay, float az, float mx, float my, float mz)
+{
+  float roll = atan2(ay, az);
+  float pitch = atan2(-ax, sqrt(ay * ay + az * az));
   
   float heading;
-  if (-DeviceIMU.mx == 0)
-    heading = (-DeviceIMU.mx < 0) ? PI : 0;
+  if (my == 0)
+    heading = (mx < 0) ? PI : 0;
   else
-    heading = atan2(-DeviceIMU.my, -DeviceIMU.mx);
+    heading = atan2(mx, my);
     
   heading -= DECLINATION * PI / 180;
   
@@ -42,8 +46,29 @@ if (DeviceIMU.magAvailable())
   pitch *= 180.0 / PI;
   roll  *= 180.0 / PI;
 
+  // Good chance this is all wrong. 
+// IMU X DIRECTION
+  if (DeviceIMU.ax * 0.05 <= 0.05){
+    telemetry[teleIMUx] = 0;
+  }
+  else {
+    telemetry[teleIMUx] = DeviceIMU.ax * 0.05*cos(roll)*9.81;
+  }
 
-  telemetry[teleIMUx] = roll;
-  telemetry[teleIMUy] = pitch;
-  telemetry[teleIMUz] = heading;
+// IMU Y DIRECTION
+  if (myIMU.ax * 0.05 <= 0.05){
+    telemetry[teleIMUy] = 0;
+  }
+  else {
+    telemetry[teleIMUy] = DeviceIMU.ay * 0.05*cos(pitch)*9.81;
+  }
+  
+// IMU Z DIRECTION
+  if (DeviceIMU.ax * 0.05 <= 0.05){
+    telemetry[teleIMUz] = 0;
+  }
+  else {
+    telemetry[teleIMUz] = DeviceIMU.az *0.05;
+  }
+
 }

@@ -16,16 +16,17 @@
 #define DECLINATION -10.45 //Degrees
 
 //BMP
-
+#include <Adafruit_Sensor.h>
 #include <Adafruit_BMP280.h>
 
 #define BMP_SCK 13
 #define BMP_MISO 12
 #define BMP_MOSI 11 
 #define BMP_CS 10
+#define PI 3.14
 
 #define DEBUG
-#define PAYLOAD
+#define DEVICE
  
 //Global Variable Declarations
 int delayTime;
@@ -94,6 +95,7 @@ void setup() {
   #ifdef DEVICE
     telemetry[teleDevice] = 2;
     initDeviceIMU();
+    initDeviceBMP();
   #endif
   #ifdef PAYLOAD
     telemetry[teleDevice] = 1;
