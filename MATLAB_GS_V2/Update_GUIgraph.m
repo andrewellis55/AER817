@@ -133,33 +133,29 @@ switch dataSource
             otherwise 
                 handles.ypayload = 0;
         end
-    case 3 % MAP AND 3D PLOT OUTPUT
-        handles.device_x = cumsum(handles.deviceData(:,6));
-        handles.device_y = cumsum(handles.deviceData(:,7));
-        handles.device_z = cumsum(handles.deviceData(:,8));
-
-        handles.payload_x = cumsum(handles.payloadData(:,5));
-        handles.payload_y = cumsum(handles.payloadData(:,6));
-        handles.payload_z = cumsum(handles.payloadData(:,7));  
+%     case 3 % MAP AND 3D PLOT OUTPUT
+%         handles.device_x = cumsum(handles.deviceData(:,6));
+%         handles.device_y = cumsum(handles.deviceData(:,7));
+%         handles.device_z = cumsum(handles.deviceData(:,8));
+% 
+%         handles.payload_x = cumsum(handles.payloadData(:,5));
+%         handles.payload_y = cumsum(handles.payloadData(:,6));
+%         handles.payload_z = cumsum(handles.payloadData(:,7));  
 end
  
 refLat = 43.658786;
 refLon = -79.380268;
 
-% THESE LINES NEED TO BE USED TO TAKE POSITION DATA FROM IMU AND 
-% CHANGE IT INTO LAT/LON COORDS FOR MAP
+handles.device_x = handles.deviceData(:,6);
+handles.device_y = handles.deviceData(:,7);
+handles.device_z = handles.deviceData(:,8);
 
-handles.device_x = cumsum(handles.deviceData(:,6));
-handles.device_y = cumsum(handles.deviceData(:,7));
-handles.device_z = cumsum(handles.deviceData(:,8));
-
-handles.payload_x = cumsum(handles.payloadData(:,5));
-handles.payload_y = cumsum(handles.payloadData(:,6));
-handles.payload_z = cumsum(handles.payloadData(:,7));
+handles.payload_x = handles.payloadData(:,5);
+handles.payload_y = handles.payloadData(:,6);
+handles.payload_z = handles.payloadData(:,7);
 
 % device_lat_pos(pk) = round((handles.device(pk) / 111000) + refLat;
 % device_lon_pos(pk) = round((pos_y(pk) / (111000 * cos(lat_pos(pk)))) + refLon);
-
 
 cla(handles.Graph1);
 grid(handles.Graph1, 'on');
