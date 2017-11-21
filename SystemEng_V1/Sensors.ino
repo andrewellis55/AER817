@@ -39,8 +39,8 @@ void getGPSData(){
   telemetry[teleGPSAlt] = 9999;
 }
 
-void getBMPData(){
-  telemetry[teleBMPAlt] = 9999;
+void getDeviceBMPData(){
+  telemetry[teleBMPAlt] = DeviceBMP.readAltitude(1000);
 }
 
 void initDeviceIMU(){

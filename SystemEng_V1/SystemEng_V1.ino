@@ -15,18 +15,28 @@
 #define LSM9DS1_AG  0x6B // Would be 0x6A if SDO_AG is LOW
 #define DECLINATION -10.45 //Degrees
 
+//BMP
+
+#include <Adafruit_BMP280.h>
+
+#define BMP_SCK 13
+#define BMP_MISO 12
+#define BMP_MOSI 11 
+#define BMP_CS 10
+
 #define DEBUG
-#define DEVICE
+#define PAYLOAD
  
 //Global Variable Declarations
 int delayTime;
-int buttonPin;
+int buttonPin = 9;
 int buttonState;
 int DeviceID = 1234;
 
 float g;
 MPU9250 myIMU;
 LSM9DS1 DeviceIMU;
+Adafruit_BMP280 DeviceBMP;
 
 AK9750 movementSensor; //Hook object to the library
   
@@ -83,10 +93,12 @@ void setup() {
  
   #ifdef DEVICE
     telemetry[teleDevice] = 2;
+    initDeviceIMU();
   #endif
   #ifdef PAYLOAD
     telemetry[teleDevice] = 1;
     initAK();
+    initIMU();
   #endif
 
   telemetry[teleDeviceID] = DeviceID;
@@ -96,7 +108,6 @@ void setup() {
   // put your setup code here, to run once:u
   initGlobalVariables();
   pinMode(buttonPin, INPUT);
-  initIMU();
   setLocationReference();
 }
 
@@ -109,20 +120,18 @@ void loop() {
   #ifdef DEVICE
     checkPanicButton();
     updateDeviceLocation();
-//    getDeivceBMPData();
-//    getDeviceIMUDATA();
-//    printAttitude();
+    getDeviceBMPData();
   #endif
 
 
   #ifdef PAYLOAD
     getAKData();
     updateLocation();
+    //getBMPData();
   #endif
 
   
   getGPSData();
-  getBMPData();
   sendRadioData();
   timeDelay();
 

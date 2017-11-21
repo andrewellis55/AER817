@@ -1,18 +1,35 @@
+void setLocationReference() {
+  //Sets the current location to (0,0,0)
+
+}
+
 void updateDeviceLocation() {
-
 // Read IMU Values
+if (DeviceIMU.gyroAvailable())
+{
   DeviceIMU.readGyro();
-  DeviceIMU.readAccel();
-  DeviceIMU.readMag();
+}
 
+if (DeviceIMU.accelAvailable())
+{
+  DeviceIMU.readAccel();
+}
+
+if (DeviceIMU.magAvailable())
+{
+  DeviceIMU.readMag();
+}
+  
+
+// Obtain Roll Pitch Yaw of device.
   float roll = atan2(DeviceIMU.ay, DeviceIMU.az);
   float pitch = atan2(-DeviceIMU.ax, sqrt(DeviceIMU.ay * DeviceIMU.ay + DeviceIMU.az * DeviceIMU.az));
   
   float heading;
-  if (-DeviceIMU.my == 0)
+  if (-DeviceIMU.mx == 0)
     heading = (-DeviceIMU.mx < 0) ? PI : 0;
   else
-    heading = atan2(-DeviceIMU.mx, -DeviceIMU.my);
+    heading = atan2(-DeviceIMU.my, -DeviceIMU.mx);
     
   heading -= DECLINATION * PI / 180;
   
