@@ -64,6 +64,12 @@ handles.output = hObject;
 guidata(hObject, handles);
 axes (handles.logo);
 imshow ('SenseAlert_2.JPG');
+
+warning('off','all')
+lonAxis = [-79.3832 -79.3765];
+latAxis = [43.6565 43.6603];
+axis(handles.axMap,[lonAxis, latAxis])
+
 %CAnada Flag Logo addition
 % axes (handles.CanadaFlag);
 % imshow ('CanadaFlag.png');
