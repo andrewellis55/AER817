@@ -134,26 +134,32 @@ switch dataSource
                 handles.ypayload = 0;
         end
     case 3 % MAP AND 3D PLOT OUTPUT
-        handles.device_x = handles.deviceData(:,6);
-        handles.device_y = handles.deviceData(:,7);
-        handles.device_z = handles.deviceData(:,8);
+        handles.device_x = cumsum(handles.deviceData(:,6));
+        handles.device_y = cumsum(handles.deviceData(:,7));
+        handles.device_z = cumsum(handles.deviceData(:,8));
 
-        handles.payload_x = handles.payloadData(:,5);
-        handles.payload_y = handles.payloadData(:,6);
-        handles.payload_z = handles.payloadData(:,7);  
+        handles.payload_x = cumsum(handles.payloadData(:,5));
+        handles.payload_y = cumsum(handles.payloadData(:,6));
+        handles.payload_z = cumsum(handles.payloadData(:,7));  
 end
-        lonAxis = [-79.3832 -79.3765];
-        latAxis = [43.6565 43.6603];
-        refLat = 43.658786;
-        refLon = -79.380268;
-        % pos_x(pk) = cumsum(dx(pk)); % Summation of delta changes in x,y,z position
-        % pos_y(pk) = cumsum(dy(pk));
-        % pos_z(pk) = cumsum(dz(pk));
+ 
+refLat = 43.658786;
+refLon = -79.380268;
 
-        % lat_pos(pk) = round((pos_x(pk) / 111000) + refLat;
-        % lon_pos(pk) = round((pos_y(pk) / (111000 * cos(lat_pos(pk)))) + refLon);
+% THESE LINES NEED TO BE USED TO TAKE POSITION DATA FROM IMU AND 
+% CHANGE IT INTO LAT/LON COORDS FOR MAP
 
-%--
+handles.device_x = cumsum(handles.deviceData(:,6));
+handles.device_y = cumsum(handles.deviceData(:,7));
+handles.device_z = cumsum(handles.deviceData(:,8));
+
+handles.payload_x = cumsum(handles.payloadData(:,5));
+handles.payload_y = cumsum(handles.payloadData(:,6));
+handles.payload_z = cumsum(handles.payloadData(:,7));
+
+% device_lat_pos(pk) = round((handles.device(pk) / 111000) + refLat;
+% device_lon_pos(pk) = round((pos_y(pk) / (111000 * cos(lat_pos(pk)))) + refLon);
+
 
 cla(handles.Graph1);
 grid(handles.Graph1, 'on');
@@ -166,12 +172,17 @@ switch dataSource
     case 2    
         plot(handles.xpayload, handles.ypayload, '.-b','Parent', handles.Graph1);
     case 3
-%         plot3(handles.payload_x, handles.payload_y, handles.payload_z, '.-k','Parent', handles.Graph1);
-  
+        hold on
+        plot3(handles.payload_x, handles.payload_y, handles.payload_z, '.-k','Parent', handles.Graph1);
+        plot3(handles.device_x, handles.device_y, handles.device_z,'.-b','Parent',handles.Graph1);
+        hold off
 end
 
-        markerLoc = char(strcat({num2str(refLat,8)},{' '},{num2str(refLon,8)}));
-        axes(handles.axMap)
-        axis(handles.axMap,[lonAxis, latAxis])
-        plot_google_map('Axis',handles.axMap,'Marker',markerLoc,'MapType','hybrid','AutoAxis',1)
+device_markerLoc = char(strcat({num2str(refLat,8)},{' '},{num2str(refLon,8)}));
+payload_markerLoc = char(strcat({num2str(refLat,8)},{' '},{num2str(refLon,8)}));
+% axes(handles.axMap)
+% axis(handles.axMap,[lonAxis, latAxis])
+plot_google_map('Axis',handles.axMap,'Marker',payload_markerLoc,'MapType','hybrid','AutoAxis',0)
+close Figure 1
+
 
