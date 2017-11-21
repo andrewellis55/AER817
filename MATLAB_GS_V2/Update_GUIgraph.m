@@ -6,12 +6,14 @@ function [] = Update_GUIgraph(handles, table_filename)
 
 % "container became device"
 
-global matrix;
+global matrix EEGPlotSelect;
 
 handles.payloadData = matrix.payload;
 handles.deviceData = matrix.device;
 char dataSouce;
 dataSource = get(handles.graphDataSelect, 'Value');
+EEGSource = get(handles.pumEEG, 'Value');
+
 xAxis = get(handles.graphxAxis, 'Value');
 yAxis = get(handles.graphyAxis, 'Value');
 
@@ -142,7 +144,18 @@ switch dataSource
 %         handles.payload_y = cumsum(handles.payloadData(:,6));
 %         handles.payload_z = cumsum(handles.payloadData(:,7));  
 end
- 
+% 
+% switch EEGSource
+%     case 1
+%         handles.nuts = handles.pumEEG.String(1)
+%     case 2
+%         handles.nuts = handles.pumEEG.String(2)
+%     case 3
+%         handles.nuts = handles.pumEEG.String(3)
+% end
+
+
+
 refLat = 43.658786;
 refLon = -79.380268;
 

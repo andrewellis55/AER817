@@ -41,7 +41,7 @@ Payload
 
 
 %% MODIFY THIS SECTION BASED ON ABOVE PACKETS
-global matrix;
+global matrix  triggered;
 
 tele = strsplit(packet, ',');
 isDeployed = 0;

@@ -21,7 +21,7 @@ function varargout = gcs2017(varargin)
 
 % Edit the above text to modify the response to help gcs2017
 
-% Last Modified by GUIDE v2.5 18-Nov-2017 22:52:01
+% Last Modified by GUIDE v2.5 21-Nov-2017 16:39:19
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -69,6 +69,8 @@ warning('off','all')
 lonAxis = [-79.3832 -79.3765];
 latAxis = [43.6565 43.6603];
 axis(handles.axMap,[lonAxis, latAxis])
+global triggered
+triggered = 0;
 
 %CAnada Flag Logo addition
 % axes (handles.CanadaFlag);
@@ -400,3 +402,23 @@ function pushbutton9_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 figure(2)
+
+
+% --- Executes on button press in pushbutton10.
+function pushbutton10_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton10 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global triggered;
+triggered =0;
+set(handles.deploymentButton, 'BackgroundColor', [0 1 0]);
+set(handles.deploymentButton, 'String', 'PANIC');
+
+
+% --- Executes during object creation, after setting all properties.
+function axEEG_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to axEEG (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: place code in OpeningFcn to populate axEEG
