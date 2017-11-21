@@ -4,9 +4,9 @@ function [] = updateGUI_deviceTable(handles, dataMatrixDevice, pk)
 data = num2cell(dataMatrixDevice(1:pk,1:11));
 
 if (pk < 6)
- tableData = num2cell(dataMatrixPayload(1:pk,1:14));   
+ tableData = num2cell(dataMatrixDevice(1:pk,1:11));   
 else
-    tableData = num2cell(dataMatrixPayload(pk-5:pk,1:14));  
+    tableData = num2cell(dataMatrixDevice(pk-5:pk,1:11));  
 end
 % data = dataMatrixGlider(1:pk,1:11);
 % data(:,2) = cellstr('DEVICE');

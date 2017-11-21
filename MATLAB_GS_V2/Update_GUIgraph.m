@@ -141,7 +141,7 @@ switch dataSource
         handles.payload_x = handles.payloadData(:,5);
         handles.payload_y = handles.payloadData(:,6);
         handles.payload_z = handles.payloadData(:,7);  
-    case 4
+end
         lonAxis = [-79.3832 -79.3765];
         latAxis = [43.6565 43.6603];
         refLat = 43.658786;
@@ -152,13 +152,13 @@ switch dataSource
 
         % lat_pos(pk) = round((pos_x(pk) / 111000) + refLat;
         % lon_pos(pk) = round((pos_y(pk) / (111000 * cos(lat_pos(pk)))) + refLon);
-end
+
 %--
 
 cla(handles.Graph1);
 grid(handles.Graph1, 'on');
 hold(handles.Graph1,'on');
-
+hold(handles.axMap,'on');
 
 switch dataSource
     case 1
@@ -167,16 +167,11 @@ switch dataSource
         plot(handles.xpayload, handles.ypayload, '.-b','Parent', handles.Graph1);
     case 3
 %         plot3(handles.payload_x, handles.payload_y, handles.payload_z, '.-k','Parent', handles.Graph1);
-    case 4
-        
-        markerLoc = char(strcat({num2str(refLat,8)},{' '},{num2str(refLon,8)}));
-        axes(handles.Graph1)
-        axis([lonAxis, latAxis])
-        plot_google_map('Axis',handles.Graph1,'Marker',markerLoc,'MapType','hybrid')
-
-      
-
-
-
+  
 end
+
+        markerLoc = char(strcat({num2str(refLat,8)},{' '},{num2str(refLon,8)}));
+        axes(handles.axMap)
+        axis(handles.axMap,[lonAxis, latAxis])
+        plot_google_map('Axis',handles.axMap,'Marker',markerLoc,'MapType','hybrid','AutoAxis',1)
 
