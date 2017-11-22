@@ -158,11 +158,11 @@ while true
             %subplot(2,1,1);
             time = 0:1/fse:secBuffer-1/fse;
             
-            if strcmp(nuts, 'All Channels')
+            if strcmp(EEG_Dropdown, 'All Channels')
                 h1 = plot(handles.axEEG, time,EEGPlot);
-            elseif strcmp(nuts, 'EEG 1')
+            elseif strcmp(EEG_Dropdown, 'EEG 1')
                 h1 = plot(handles.axEEG, time,eegBuffer(:,1));
-            elseif strcmp(nuts, 'EEG 4')
+            elseif strcmp(EEG_Dropdown, 'EEG 4')
                 h1 = plot(handles.axEEG, time,eegBuffer(:,4));
             end
             
@@ -182,11 +182,11 @@ while true
             plot1 = false;
             
         else
-            if strcmp(nuts, 'All Channels')
+            if strcmp(EEG_Dropdown, 'All Channels')
                 cell1 = (num2cell(EEGPlot,1))';
-            elseif strcmp(nuts, 'EEG 1')
+            elseif strcmp(EEG_Dropdown, 'EEG 1')
                 cell1 = (num2cell(eegBuffer(:,1),1))';
-            elseif strcmp(nuts, 'EEG 4')
+            elseif strcmp(EEG_Dropdown, 'EEG 4')
                 cell1 = (num2cell(eegBuffer(:,4),1))';
             end
             set(h1,{'ydata'},cell1);
@@ -211,11 +211,11 @@ while true
     EEGSource = get(handles.pumEEG, 'Value');
     switch EEGSource
         case 1
-            nuts = handles.pumEEG.String(1);
+            EEG_Dropdown = handles.pumEEG.String(1);
         case 2
-            nuts = handles.pumEEG.String(2);
+            EEG_Dropdown = handles.pumEEG.String(2);
         case 3
-            nuts = handles.pumEEG.String(3);
+            EEG_Dropdown = handles.pumEEG.String(3);
     end
     
 end %while true

@@ -1,4 +1,4 @@
-function varargout = gcs2017(varargin)
+?function varargout = gcs2017(varargin)
 % GCS2017 MATLAB code for gcs2017.fig
 %      GCS2017, by itself, creates a new GCS2017 or raises the existing
 %      singleton*.
@@ -21,7 +21,7 @@ function varargout = gcs2017(varargin)
 
 % Edit the above text to modify the response to help gcs2017
 
-% Last Modified by GUIDE v2.5 21-Nov-2017 16:39:19
+% Last Modified by GUIDE v2.5 21-Nov-2017 21:22:57
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -247,19 +247,19 @@ global matrix;
     
 
 
-% --- Executes on selection change in popupmenu4.
-function popupmenu4_Callback(hObject, eventdata, handles)
-% hObject    handle to popupmenu4 (see GCBO)
+% --- Executes on selection change in COM2Select.
+function COM2Select_Callback(hObject, eventdata, handles)
+% hObject    handle to COM2Select (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu4 contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from popupmenu4
+% Hints: contents = cellstr(get(hObject,'String')) returns COM2Select contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from COM2Select
 
 
 % --- Executes during object creation, after setting all properties.
-function popupmenu4_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to popupmenu4 (see GCBO)
+function COM2Select_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to COM2Select (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -401,7 +401,7 @@ function pushbutton9_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton9 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-figure(2)
+% figure(2)
 
 
 % --- Executes on button press in pushbutton10.
