@@ -4,8 +4,10 @@
 
 #define SerialDebug false
 
-#define mintimeInt 0.05
+#define mintimeInt 0.01
 
+#define Kp 2.0f * 5.0f
+#define Ki 0.0f
 
 float filX;
 float filY;
@@ -27,15 +29,25 @@ float dz = 0;
 
 
 void setupIMU() {
-  initPayloadIMU();
 
-  inertialData ID;
+ inertialData ID;
+
+
+  #ifdef DEVICE
+  initDeviceIMU();
+  getDeviceIMUData(&ID);
+  #endif
+
+  #ifdef PAYLOAD
+  initPayloadIMU();
   getPayloadIMUData(&ID);
-  filX = ID.ax;
-  filY = ID.ay;
+  #endif
+
+  filX = 0;//ID.ax;
+  filY = 0;//ID.ay;
   filZ = ID.az;
   
-  startTime = millis();
+  startTime = micros();
   zeroDelay = millis();
 
 }
@@ -60,16 +72,22 @@ void hpFilter(inertialData *ID){
 
 void slam(){
   
-  startTime = millis();
+  startTime = micros();
   inertialData ID;
+  #ifdef PAYLOAD
   getPayloadIMUData(&ID);
+  #endif
 
+  #ifdef DEVICE
+  getDeviceIMUData(&ID);
+  #endif 
+  
   hpFilter(&ID);
  
-  while (millis() - startTime < mintimeInt * 1000){
+  while (micros() - startTime < mintimeInt * 1000000){
   }
   
-  float timeInt = millis() - startTime;
+  float timeInt = (micros() - startTime) / 1000000.0;
 
   vx = vx + ID.ax * timeInt;
   vy = vy + ID.ay * timeInt;
@@ -77,7 +95,7 @@ void slam(){
 
   dx = dx + vx * timeInt + 0.5 * ID.ax * pow(timeInt, 2);
   dy = dy + vy * timeInt + 0.5 * ID.ay * pow(timeInt, 2);
-  dx = dz + vz * timeInt + 0.5 * ID.az * pow(timeInt, 2);
+  dz = dz + vz * timeInt + 0.5 * ID.az * pow(timeInt, 2);
 
   if (millis() - zeroDelay > 2000 && zeroed == false){
     zeroed = true;
@@ -88,26 +106,26 @@ void slam(){
     dx = 0;
     dy = 0;
     dz = 0;
+
+    filX = 0;
+    filY = 0;
+    filZ = 0;
     
   }
 
-//  Serial.print(dx);
-//  Serial.print(",");
-//  Serial.print(dy);
-//  Serial.print(",");
-//  Serial.print(vx+3);
-//  Serial.print(",");
-//  Serial.println(vy+3);
+
+
+
 
     telemetry[teleIMUx] = dx;
     telemetry[teleIMUy] = dy;
-    telemetry[teleIMUz] = 0;
+    //telemetry[teleIMUz] = 0;
 
 
   #ifdef DEBUG_IMU
-  Serial.print(vx);
+  Serial.print(dx);
   Serial.print(",");
-  Serial.println(vy);
+  Serial.println(dy);
 
 //Serial.println(timeInt);
   #endif
@@ -139,14 +157,10 @@ void printAccel(inertialData ID){
 
 
 
-
-
-
-
 float trimVal(float val){
   
 
-  if (abs(val) < 0.2){
+  if (abs(val) < 0.1){
     return 0;
   } else {
     return val;
@@ -174,7 +188,7 @@ void initPayloadIMU(){
   myIMU.getMres();
 
   // Calibrates magnometer
- // myIMU.magCalMPU9250(myIMU.magBias, myIMU.magScale);
+  //myIMU.magCalMPU9250(myIMU.magBias, myIMU.magScale);
 }
 
 
@@ -313,3 +327,95 @@ void getPayloadIMUData(inertialData *ID){
 }
 
 
+
+
+void initDeviceIMU(){
+    imu.settings.device.commInterface = IMU_MODE_I2C;
+  imu.settings.device.mAddress = LSM9DS1_M;
+  imu.settings.device.agAddress = LSM9DS1_AG;
+
+  if (imu.begin()){
+
+  } else{
+  
+  }
+}
+
+void getDeviceIMUData(inertialData *ID){
+
+
+if ( imu.gyroAvailable() )
+  {
+    // To read from the gyroscope,  first call the
+    // readGyro() function. When it exits, it'll update the
+    // gx, gy, and gz variables with the most current data.
+    imu.readGyro();
+  }
+  if ( imu.accelAvailable() )
+  {
+    // To read from the accelerometer, first call the
+    // readAccel() function. When it exits, it'll update the
+    // ax, ay, and az variables with the most current data.
+    imu.readAccel();
+  }
+  if ( imu.magAvailable() )
+  {
+    // To read from the magnetometer, first call the
+    // readMag() function. When it exits, it'll update the
+    // mx, my, and mz variables with the most current data.
+    imu.readMag();
+  }
+
+
+float roll = atan2(imu.ay, imu.az);
+  float pitch = atan2(-imu.ax, sqrt(imu.ay * imu.ay + imu.az * imu.az));
+  
+  float heading;
+  if (-imu.my == 0)
+    heading = (-imu.mx < 0) ? PI : 0;
+  else
+    heading = atan2(-imu.mx, -imu.my);
+    
+  heading -= DECLINATION * PI / 180;
+  
+  if (heading > PI) heading -= (2 * PI);
+  else if (heading < -PI) heading += (2 * PI);
+  else if (heading < 0) heading += 2 * PI;
+  
+  // Convert everything from radians to degrees:
+  heading *= 180.0 / PI;
+  pitch *= 180.0 / PI;
+  roll  *= 180.0 / PI;
+  
+
+
+
+      float deltat = (micros()-startTime)/1000000.0;
+  MahonyQuaternionUpdate(imu.ax, imu.ay, imu.az, imu.gx * DEG_TO_RAD, imu.gy * DEG_TO_RAD, imu.gz * DEG_TO_RAD, imu.mx, imu.my, imu.mz, deltat);
+  
+        float q[4];
+        
+        q[0] =  *getQ();
+        q[1] =  *(getQ()+1);
+        q[2] =  *(getQ()+2);
+        q[3] =  *(getQ()+3);
+
+  
+
+  ID->gx = imu.calcAccel(imu.ax);
+  ID->gy = imu.calcAccel(imu.ay);
+  ID->gz = imu.calcAccel(imu.az);
+
+  ID->pitch = pitch;
+  ID->roll = roll;
+  ID->yaw = heading;
+
+        ID->ax = trimVal(9.81 * (imu.ax - (2 * (q[1] * q[3] - q[0] * q[2]))))/10000.0;
+        ID->ay = trimVal(9.81 * (imu.ay - (2 * (q[0] * q[1] + q[2] * q[3]))))/10000.0;
+        ID->az = trimVal(9.81 * (imu.az - (q[0] * q[0] - q[1] * q[1] - q[2] * q[2] + q[3] * q[3])))/10000.0;
+
+     
+
+}
+
+ 

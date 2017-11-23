@@ -1,7 +1,7 @@
 void sendRadioData() {
   //Sends data to GS
 
-#ifdef DEVICE //SERIAL1 OUTPUT FOR XBEE ONPERSON DEVICE
+#ifdef PAYLOAD //SERIAL1 OUTPUT FOR XBEE ONPERSON DEVICE
   for (int i = 0; i < teleSize; i++)
   {
     xbee.print(telemetry[i]);
@@ -13,14 +13,14 @@ void sendRadioData() {
 
 #endif
 
-#ifdef PAYLOAD  //SERIAL1 NEEDS TO BE CHANGED TO SOFTWARE SERIAL FOR XBEE OUTPUT ON PAYLOAD PCB
+#ifdef DEVICE  //SERIAL1 NEEDS TO BE CHANGED TO SOFTWARE SERIAL FOR XBEE OUTPUT ON PAYLOAD PCB
   for (int i = 0; i < teleSize; i++)
   {
-    Serial.print(telemetry[i]);
-    Serial.print(',');
+    Serial1.print(telemetry[i]);
+    Serial1.print(',');
   }
 
-  Serial.println(' ');
+  Serial1.println(' ');
 #endif
 
   

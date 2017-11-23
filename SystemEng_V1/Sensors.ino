@@ -1,5 +1,10 @@
 
 
+void initDeviceBMP(){
+  DeviceBMP.begin();
+  baseAlt = DeviceBMP.readAltitude(1012);
+}
+
 void checkPanicButton() {
   //Checks if panic button has been pressed
   int buttonState = digitalRead(buttonPin);
@@ -19,16 +24,8 @@ void getGPSData() {
 }
 
 void getBMPData() {
-  telemetry[teleBMPAlt] = DeviceBMP.readAltitude(1012);
+  telemetry[teleIMUz] = DeviceBMP.readAltitude(1012) - baseAlt;
+  telemetry[teleBMPAlt] = DeviceBMP.readAltitude(1012) - baseAlt;
 }
 
-void initDeviceIMU() {
-  // Before initializing the IMU, there are a few settings
-  // we may need to adjust. Use the settings struct to set
-  // the device's communication mode and addresses:
-  DeviceIMU.settings.device.commInterface = IMU_MODE_I2C;
-  DeviceIMU.settings.device.mAddress = LSM9DS1_M;
-  DeviceIMU.settings.device.agAddress = LSM9DS1_AG;
-  DeviceIMU.begin();
-}
 

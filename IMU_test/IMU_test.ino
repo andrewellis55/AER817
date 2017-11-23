@@ -4,7 +4,7 @@
 #define SerialDebug false
 
 
-#define timeInt 0.02
+#define timeInt 0.012
 
 MPU9250 myIMU;
 
@@ -101,7 +101,7 @@ void slam(){
 
   dx = dx + vx * timeInt + 0.5 * ID.ax * pow(timeInt, 2);
   dy = dy + vy * timeInt + 0.5 * ID.ay * pow(timeInt, 2);
-  dx = dz + vz * timeInt + 0.5 * ID.az * pow(timeInt, 2);
+  dz = dz + vz * timeInt + 0.5 * ID.az * pow(timeInt, 2);
 
   if (millis() - zeroDelay > 2000 && zeroed == false){
     zeroed = true;
@@ -117,18 +117,19 @@ void slam(){
 
   Serial.print(dx);
   Serial.print(",");
-  Serial.print(dy);
-  Serial.print(",");
-  Serial.print(vx+3);
-  Serial.print(",");
-  Serial.println(vy+3);
+  Serial.println(dy);
+  //Serial.print(",");
+//  Serial.print(vy * timeInt + 0.1);
+//  Serial.print(",");
+//  //Serial.print(0.5 * ID.ay * pow(timeInt, 2) - 0.1);
+//    //Serial.print(",");
+//    Serial.println(vx * timeInt+0.1);
+//  //Serial.print(",");
+//  //Serial.println(0.5 * ID.ax * pow(timeInt, 2) -0.1);
 
  // printAccel(ID);
   
-trimVal(ID.ax);
-trimVal(ID.ay);
-trimVal(ID.az);
-  
+
  
 }
 

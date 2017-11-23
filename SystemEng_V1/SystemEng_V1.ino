@@ -25,9 +25,9 @@
 #define BMP_CS 10
 #define PI 3.1415926536
 
-//#define DEBUG
-#define DEBUG_IMU 7
-#define PAYLOAD
+#define DEBUG
+//#define DEBUG_IMU 7
+#define DEVICE
  
 
 //Global Variable Declarations
@@ -56,7 +56,7 @@ typedef struct {
 
 float g;
 MPU9250 myIMU;
-LSM9DS1 DeviceIMU;
+LSM9DS1 imu;
 Adafruit_BMP280 DeviceBMP;
 
 AK9750 movementSensor; //Hook object to the library
@@ -108,6 +108,10 @@ float telemetry[11];
 float telemetry[14];
 #endif
 
+
+
+float baseAlt;
+
 void setup() {
 
   //Debug State Function
@@ -119,13 +123,14 @@ xbee.begin(9600);
  
   #ifdef DEVICE
     telemetry[teleDevice] = 2;
+    Serial1.begin(9600);
   #endif
   #ifdef PAYLOAD
     telemetry[teleDevice] = 1;
     initAK();
-    setupIMU();
   #endif
-
+ setupIMU();
+  initDeviceBMP();
 
   telemetry[teleDeviceID] = DeviceID;
   telemetry[teleCount] = 1;
@@ -133,7 +138,7 @@ xbee.begin(9600);
   // put your setup code here, to run once
   initGlobalVariables();
 
-  pinMode(buttonPin, INPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
   //initPayloadIMU();
 
   setLocationReference();
@@ -153,8 +158,7 @@ void loop() {
   
   #ifdef DEVICE
     checkPanicButton();
-    getDeivceBMPData();
-    getDeviceIMUDATA();
+    getBMPData();
   #endif
 
 
@@ -162,14 +166,13 @@ void loop() {
 
 #ifdef DEVICE
   checkPanicButton();
-  updateDeviceLocation();
   getBMPData();
 #endif
 
 
 #ifdef PAYLOAD
   getAKData();
-
+ getBMPData();
   //getPayloadIMUDATA();
   #endif
 
