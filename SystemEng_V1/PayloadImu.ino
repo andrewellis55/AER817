@@ -4,7 +4,7 @@
 
 #define SerialDebug false
 
-#define mintimeInt 0.02
+#define mintimeInt 0.05
 
 
 float filX;
@@ -29,7 +29,7 @@ float dz = 0;
 void setupIMU() {
   initPayloadIMU();
 
-    inertialData ID;
+  inertialData ID;
   getPayloadIMUData(&ID);
   filX = ID.ax;
   filY = ID.ay;
