@@ -21,7 +21,7 @@ function varargout = gcs2017(varargin)
 
 % Edit the above text to modify the response to help gcs2017
 
-% Last Modified by GUIDE v2.5 18-Nov-2017 22:52:01
+% Last Modified by GUIDE v2.5 21-Nov-2017 21:22:57
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -64,6 +64,14 @@ handles.output = hObject;
 guidata(hObject, handles);
 axes (handles.logo);
 imshow ('SenseAlert_2.JPG');
+
+warning('off','all')
+lonAxis = [-79.3832 -79.3765];
+latAxis = [43.6565 43.6603];
+axis(handles.axMap,[lonAxis, latAxis])
+global triggered
+triggered = 0;
+
 %CAnada Flag Logo addition
 % axes (handles.CanadaFlag);
 % imshow ('CanadaFlag.png');
@@ -122,7 +130,14 @@ global ard;
 selectedPort = get(handles.COMSelect,'Value');
 Portlist = get(handles.COMSelect,'String');
 comport = Portlist{selectedPort};
-ard = connectFunction(comport, handles);
+%ard = connectFunction(comport2, handles);
+
+global ard2;
+selectedPort2 = get(handles.COM2Select,'Value');
+Portlist2 = get(handles.COM2Select,'String');
+comport2 = Portlist2{selectedPort2};
+[ard, ard2] = connectFunction(comport,comport2, handles);
+
 
 
 % --- Executes during object creation, after setting all properties.
@@ -239,19 +254,19 @@ global matrix;
     
 
 
-% --- Executes on selection change in popupmenu4.
-function popupmenu4_Callback(hObject, eventdata, handles)
-% hObject    handle to popupmenu4 (see GCBO)
+% --- Executes on selection change in COM2Select.
+function COM2Select_Callback(hObject, eventdata, handles)
+% hObject    handle to COM2Select (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu4 contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from popupmenu4
+% Hints: contents = cellstr(get(hObject,'String')) returns COM2Select contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from COM2Select
 
 
 % --- Executes during object creation, after setting all properties.
-function popupmenu4_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to popupmenu4 (see GCBO)
+function COM2Select_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to COM2Select (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -393,4 +408,24 @@ function pushbutton9_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton9 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-figure(2)
+% figure(2)
+
+
+% --- Executes on button press in pushbutton10.
+function pushbutton10_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton10 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global triggered;
+triggered =0;
+set(handles.deploymentButton, 'BackgroundColor', [0 1 0]);
+set(handles.deploymentButton, 'String', 'PANIC');
+
+
+% --- Executes during object creation, after setting all properties.
+function axEEG_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to axEEG (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: place code in OpeningFcn to populate axEEG

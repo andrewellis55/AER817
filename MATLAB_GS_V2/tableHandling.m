@@ -39,9 +39,8 @@ Payload
 
 %}
 
-
 %% MODIFY THIS SECTION BASED ON ABOVE PACKETS
-global matrix;
+global matrix  triggered;
 
 tele = strsplit(packet, ',');
 isDeployed = 0;
@@ -63,6 +62,10 @@ if (ismember('1', tele{2}))
    
    humanSense(handles,humanSenseData);
    
+Payload_Data = matrix.payload;
+save('Payload.mat','Payload_Data');
+
+   
 elseif (ismember('2', tele{2}))
 %     matrix.device(pk, 1) = str2num(tele{1});
 %     matrix.device(pk,2) = 0;
@@ -73,9 +76,10 @@ elseif (ismember('2', tele{2}))
     if (matrix.device(pk, 4) == 1 && isDeployed == 0)
         %This section can be changed from deployed to paniced
         isDeployed = 1;
-        set(handles.deploymentButton, 'BackgroundColor', [0.26 0.96 0.49]);
+        set(handles.deploymentButton, 'BackgroundColor', [1 0 0]);
         set(handles.deploymentButton, 'String', 'PANIC');
-        msgbox('device has been deployed!');
+%         set(handles.gcs2017,'BackgroundColor', [1 0 0]);
+%         msgbox('Panic has been deteceted! Deploy quadcopter.');
 
     else 
         set(handles.deploymentButton, 'BackgroundColor','yellow');
@@ -84,9 +88,11 @@ elseif (ismember('2', tele{2}))
 
    updateGUI_deviceTable(handles,matrix.device, pk);
    
-end
    
-
+   Device_Data = matrix.device;
+   save('Device.mat','Device_Data');
+end
+  
 
 end
 

@@ -6,12 +6,14 @@ function [] = Update_GUIgraph(handles, table_filename)
 
 % "container became device"
 
-global matrix;
+global matrix EEGPlotSelect;
 
 handles.payloadData = matrix.payload;
 handles.deviceData = matrix.device;
 char dataSouce;
 dataSource = get(handles.graphDataSelect, 'Value');
+EEGSource = get(handles.pumEEG, 'Value');
+
 xAxis = get(handles.graphxAxis, 'Value');
 yAxis = get(handles.graphyAxis, 'Value');
 
@@ -133,32 +135,45 @@ switch dataSource
             otherwise 
                 handles.ypayload = 0;
         end
-    case 3 % MAP AND 3D PLOT OUTPUT
-        handles.device_x = handles.deviceData(:,6);
-        handles.device_y = handles.deviceData(:,7);
-        handles.device_z = handles.deviceData(:,8);
-
-        handles.payload_x = handles.payloadData(:,5);
-        handles.payload_y = handles.payloadData(:,6);
-        handles.payload_z = handles.payloadData(:,7);  
-    case 4
-        lonAxis = [-79.3832 -79.3765];
-        latAxis = [43.6565 43.6603];
-        refLat = 43.658786;
-        refLon = -79.380268;
-        % pos_x(pk) = cumsum(dx(pk)); % Summation of delta changes in x,y,z position
-        % pos_y(pk) = cumsum(dy(pk));
-        % pos_z(pk) = cumsum(dz(pk));
-
-        % lat_pos(pk) = round((pos_x(pk) / 111000) + refLat;
-        % lon_pos(pk) = round((pos_y(pk) / (111000 * cos(lat_pos(pk)))) + refLon);
+%     case 3 % MAP AND 3D PLOT OUTPUT
+%         handles.device_x = cumsum(handles.deviceData(:,6));
+%         handles.device_y = cumsum(handles.deviceData(:,7));
+%         handles.device_z = cumsum(handles.deviceData(:,8));
+% 
+%         handles.payload_x = cumsum(handles.payloadData(:,5));
+%         handles.payload_y = cumsum(handles.payloadData(:,6));
+%         handles.payload_z = cumsum(handles.payloadData(:,7));  
 end
-%--
+% 
+% switch EEGSource
+%     case 1
+%         handles.nuts = handles.pumEEG.String(1)
+%     case 2
+%         handles.nuts = handles.pumEEG.String(2)
+%     case 3
+%         handles.nuts = handles.pumEEG.String(3)
+% end
+
+
+
+refLat = 43.658786;
+refLon = -79.380268;
+
+handles.device_x = handles.deviceData(:,6);
+handles.device_y = handles.deviceData(:,7);
+handles.device_z = handles.deviceData(:,8);
+
+handles.payload_x = handles.payloadData(:,5);
+handles.payload_y = handles.payloadData(:,6);
+handles.payload_z = handles.payloadData(:,7);
+
+% device_lat_pos(pk) = round((handles.device(pk) / 111000) + refLat;
+% device_lon_pos(pk) = round((pos_y(pk) / (111000 * cos(lat_pos(pk)))) + refLon);
 
 cla(handles.Graph1);
 grid(handles.Graph1, 'on');
 hold(handles.Graph1,'on');
-
+hold(handles.axMap,'on');
 
 switch dataSource
     case 1
@@ -166,17 +181,17 @@ switch dataSource
     case 2    
         plot(handles.xpayload, handles.ypayload, '.-b','Parent', handles.Graph1);
     case 3
-%         plot3(handles.payload_x, handles.payload_y, handles.payload_z, '.-k','Parent', handles.Graph1);
-    case 4
-        
-        markerLoc = char(strcat({num2str(refLat,8)},{' '},{num2str(refLon,8)}));
-        axes(handles.Graph1)
-        axis([lonAxis, latAxis])
-        plot_google_map('Axis',handles.Graph1,'Marker',markerLoc,'MapType','hybrid')
-
-      
-
-
-
+        hold on
+        plot3(handles.payload_x, handles.payload_y, handles.payload_z, '.-k','Parent', handles.Graph1);
+        plot3(handles.device_x, handles.device_y, handles.device_z,'.-b','Parent',handles.Graph1);
+        hold off
 end
+
+device_markerLoc = char(strcat({num2str(refLat,8)},{' '},{num2str(refLon,8)}));
+payload_markerLoc = char(strcat({num2str(refLat,8)},{' '},{num2str(refLon,8)}));
+% axes(handles.axMap)
+% axis(handles.axMap,[lonAxis, latAxis])
+plot_google_map('Axis',handles.axMap,'Marker',payload_markerLoc,'MapType','hybrid','AutoAxis',0)
+close Figure 1
+
 

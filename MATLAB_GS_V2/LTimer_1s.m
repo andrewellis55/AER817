@@ -1,4 +1,4 @@
-function [] = LTimer_1s(src, evt, ard, csvfile, csvfilename, handles,table_filename)
+function [] = LTimer_1s(src, evt, ard, ard2, csvfile, csvfilename, handles,table_filename)
 %   Function performs the following tasks:
 %   1. If No new serial data is avilable function does nothing
 %   2. if serial data is avilable adds the new data to the .csv file log
@@ -11,6 +11,11 @@ function [] = LTimer_1s(src, evt, ard, csvfile, csvfilename, handles,table_filen
         %csvfile = fopen(csvExt, 'a+'); 
         % Get new data to string variable from Arduino
         StringFromSerial = fscanf(ard, '%s');
+        StringFromSerial2 = fscanf(ard2,'%s');
+        
+       
+        
+        
         %fprintf ('%s\n',StringFromSerial);
         % Append string variable to file
        % fprintf(csvfile, strcat(StringFromSerial, '\r\n')); 
@@ -24,9 +29,12 @@ function [] = LTimer_1s(src, evt, ard, csvfile, csvfilename, handles,table_filen
         % Condition: Glider or Container column 2.
         
         tableHandling(StringFromSerial, handles);
+        tableHandling(StringFromSerial2,handles);
+
+        
         Update_GUIDateTimeDisplay(handles);
-        Update_EEG(handles);
-        Update_GUIgraph(handles);%This function needs to be completely redone
+      %  Update_EEG(handles);
+        Update_GUIgraph(handles);
     
         
         

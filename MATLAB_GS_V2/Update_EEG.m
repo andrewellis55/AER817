@@ -1,4 +1,4 @@
-function [] = Update_EEG(handles)
+function [blink] = Update_EEG(handles, EEG_input)
 %Everything for the EEG goes in here, including sub functions
 
 %% Instructions
@@ -10,10 +10,18 @@ function [] = Update_EEG(handles)
 %
 %% Main Code
 
+% Blink check
+ blink = 0;
 
+% Sensor 1 blink check
+if ( EEG_input(end,1) > 1300)
+    blink = 1;
+end
 
-
-
+% Sensor 4 blink check
+if (EEG_input(end,4) > 1300)
+    blink = 1;
+end
 
 end
 

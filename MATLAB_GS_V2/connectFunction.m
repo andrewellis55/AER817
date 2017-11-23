@@ -1,4 +1,4 @@
-function [ard] = connectFunction(comport, handles)
+function [ard, ard2] = connectFunction(comport,comport2, handles)
 %   This file is called when the connect button is clicked on main GUI
 %   This file performs the following tasks:
 %   1. Open Serial port from comportport input variable
@@ -18,9 +18,17 @@ function [ard] = connectFunction(comport, handles)
     set(ard, 'BaudRate', 9600);
     set(ard, 'Parity', 'none');
     set(ard, 'InputBufferSize', 1000000);
+    
+    ard2 = serial(comport2);
+    set(ard2, 'DataBits', 8);
+    set(ard2, 'StopBits', 1);
+    set(ard2, 'BaudRate', 9600);
+    set(ard2, 'Parity', 'none');
+    set(ard2, 'InputBufferSize', 1000000);
 
     try %To stop and indicate that Radio is not connected
         fopen (ard); % Open comport
+        fopen(ard2);
         error = false;
     catch %if there is an error in try
         error = true; 
@@ -38,10 +46,13 @@ function [ard] = connectFunction(comport, handles)
         csvfile =1;
 
         % Set up the timer class 
-        onesecCSVlogger = timer('TimerFcn',{@LTimer_1s, ard, csvfile, csvfilename, handles,table_filename},... 
+        onesecCSVlogger = timer('TimerFcn',{@LTimer_1s, ard,ard2, csvfile, csvfilename, handles,table_filename},... 
                                 'ExecutionMode','fixedRate','Period', 1); 
+                            
+ 
         %Call csvlogger function every 1 sec period with ard(Serial port) and csvfilelog (name of csv file) as input 
         start (onesecCSVlogger);
+  
     end
 end
 
