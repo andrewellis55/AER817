@@ -1,25 +1,4 @@
-void initIMU(){
-  //initialization code for IMU
-  Wire.begin();
 
-// Start by performing self test and reporting values
-  myIMU.MPU9250SelfTest(myIMU.selfTest);
-
-  // Calibrate gyro and accelerometers, load biases in bias registers
-  myIMU.calibrateMPU9250(myIMU.gyroBias, myIMU.accelBias);
-  myIMU.initMPU9250();
-
-  // Get magnetometer calibration from AK8963 ROM
-  myIMU.initAK8963(myIMU.factoryMagCalibration);
-  
-  // Get sensor resolutions, only need to do this once
-  myIMU.getAres();
-  myIMU.getGres();
-  myIMU.getMres();
-
-  // Calibrates magnometer
-  // myIMU.magCalMPU9250(myIMU.magBias, myIMU.magScale);
-}
 
 void checkPanicButton(){
   //Checks if panic button has been pressed

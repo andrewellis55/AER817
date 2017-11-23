@@ -3,11 +3,11 @@ void sendRadioData() {
 
   for(int i = 0; i < teleSize; i++)
   {
-    Serial1.print(telemetry[i]);
-    Serial1.print(',');
+    xbee.print(telemetry[i]);
+    xbee.print(',');
   }
   
-  Serial1.println(' ');
+  xbee.println(' ');
 
   //DEBUG OUTPUT
   #ifdef DEBUG

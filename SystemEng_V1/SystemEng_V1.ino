@@ -4,7 +4,7 @@
 #include "MPU9250.h"
 
 #include "SparkFun_AK9750_Arduino_Library.h"
-
+#include <SoftwareSerial.h>
 
 
 //DeviceIMU
@@ -14,7 +14,8 @@
 #define LSM9DS1_M  0x1E // Would be 0x1C if SDO_M is LOW
 #define LSM9DS1_AG  0x6B // Would be 0x6A if SDO_AG is LOW
 
-#define DEBUG
+//#define DEBUG
+#define DEBUG_IMU 7
 #define PAYLOAD
  
 //Global Variable Declarations
@@ -23,11 +24,33 @@ int buttonPin;
 int buttonState;
 int DeviceID = 1234;
 
+
+
+typedef struct {
+  float gx;
+  float gy;
+  float gz;
+
+  float ax;
+  float ay;
+  float az;
+
+  float pitch;
+  float yaw;
+  float roll;
+
+} inertialData;
+
+
 float g;
 MPU9250 myIMU;
 LSM9DS1 DeviceIMU;
 
 AK9750 movementSensor; //Hook object to the library
+
+long teleTime;
+
+SoftwareSerial xbee(4, 3); // RX, TX
   
 //Telemetry packet
 #ifdef DEVICE
@@ -71,10 +94,10 @@ void setup() {
   //Serial1.begin(9600);
 
   //Debug State Function
-  #ifdef DEBUG
-    Serial.begin(9600);
-  #endif
- Serial1.begin(9600);
+
+Serial.begin(9600);
+
+xbee.begin(9600);
  
   #ifdef DEVICE
     telemetry[teleDevice] = 2;
@@ -82,6 +105,7 @@ void setup() {
   #ifdef PAYLOAD
     telemetry[teleDevice] = 1;
     initAK();
+    setupIMU();
   #endif
 
   telemetry[teleDeviceID] = DeviceID;
@@ -91,14 +115,20 @@ void setup() {
   // put your setup code here, to run once:u
   initGlobalVariables();
   pinMode(buttonPin, INPUT);
-  initIMU();
+  //initPayloadIMU();
   setLocationReference();
+
+  teleTime = millis();
+   slam();
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
 
-  updateLocation();
+  if (millis() - teleTime < 1000){
+    slam();
+  } else {
+
+ 
   
   #ifdef DEVICE
     checkPanicButton();
@@ -109,16 +139,17 @@ void loop() {
 
   #ifdef PAYLOAD
   getAKData();
+  //getPayloadIMUDATA();
   #endif
 
   
   getGPSData();
   getBMPData();
   sendRadioData();
-  timeDelay();
+  teleTime = millis();
 
   telemetry[teleCount] = telemetry[teleCount] + 1; //increment the packet counter
-
+  }
 }
 
 
