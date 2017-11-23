@@ -1,4 +1,4 @@
-?function varargout = gcs2017(varargin)
+function varargout = gcs2017(varargin)
 % GCS2017 MATLAB code for gcs2017.fig
 %      GCS2017, by itself, creates a new GCS2017 or raises the existing
 %      singleton*.
@@ -130,7 +130,14 @@ global ard;
 selectedPort = get(handles.COMSelect,'Value');
 Portlist = get(handles.COMSelect,'String');
 comport = Portlist{selectedPort};
-ard = connectFunction(comport, handles);
+%ard = connectFunction(comport2, handles);
+
+global ard2;
+selectedPort2 = get(handles.COM2Select,'Value');
+Portlist2 = get(handles.COM2Select,'String');
+comport2 = Portlist2{selectedPort2};
+[ard, ard2] = connectFunction(comport,comport2, handles);
+
 
 
 % --- Executes during object creation, after setting all properties.

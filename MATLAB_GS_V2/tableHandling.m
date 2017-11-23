@@ -39,7 +39,6 @@ Payload
 
 %}
 
-
 %% MODIFY THIS SECTION BASED ON ABOVE PACKETS
 global matrix  triggered;
 
@@ -63,6 +62,10 @@ if (ismember('1', tele{2}))
    
    humanSense(handles,humanSenseData);
    
+Payload_Data = matrix.payload;
+save('Payload.mat','Payload_Data');
+
+   
 elseif (ismember('2', tele{2}))
 %     matrix.device(pk, 1) = str2num(tele{1});
 %     matrix.device(pk,2) = 0;
@@ -85,9 +88,11 @@ elseif (ismember('2', tele{2}))
 
    updateGUI_deviceTable(handles,matrix.device, pk);
    
-end
    
-
+   Device_Data = matrix.device;
+   save('Device.mat','Device_Data');
+end
+  
 
 end
 

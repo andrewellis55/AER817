@@ -30,7 +30,7 @@
 
 //Global Variable Declarations
 int delayTime;
-int buttonPin = 9;
+int buttonPin = 12;
 int buttonState;
 int DeviceID = 1337;
 
@@ -97,8 +97,8 @@ void setup() {
 #endif
 #ifdef PAYLOAD
   telemetry[teleDevice] = 1;
-  initAK();
-  initIMU();
+  //initAK();
+ // initIMU();
 #endif
 
   telemetry[teleDeviceID] = DeviceID;
@@ -106,7 +106,7 @@ void setup() {
 
   // put your setup code here, to run once
   initGlobalVariables();
-  pinMode(buttonPin, INPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
   setLocationReference();
 }
 
@@ -119,14 +119,14 @@ void loop() {
 #ifdef DEVICE
   checkPanicButton();
   updateDeviceLocation();
-  getDeviceBMPData();
+  getBMPData();
 #endif
 
 
 #ifdef PAYLOAD
   getAKData();
   updateLocation();
-  //getBMPData();
+  getBMPData();
 #endif
 
 

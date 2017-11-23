@@ -53,6 +53,6 @@ void updateLocation() {
   else {
     telemetry[teleIMUz] = myIMU.az * 0.05;
   }
-#endif
+//#endif
 }
 

@@ -26,7 +26,7 @@ void initDeviceBMP() {
 
 void checkPanicButton() {
   //Checks if panic button has been pressed
-  buttonState = digitalRead(buttonPin);
+  int buttonState = digitalRead(buttonPin);
 
   if (buttonState == HIGH) {
     telemetry[teleButton] = 0;
@@ -42,8 +42,8 @@ void getGPSData() {
   telemetry[teleGPSAlt] = 9999;
 }
 
-void getDeviceBMPData() {
-  telemetry[teleBMPAlt] = DeviceBMP.readAltitude(1008);
+void getBMPData() {
+  telemetry[teleBMPAlt] = DeviceBMP.readAltitude(1012);
 }
 
 void initDeviceIMU() {
