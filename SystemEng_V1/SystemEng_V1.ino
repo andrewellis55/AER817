@@ -25,16 +25,11 @@
 #define BMP_CS 10
 #define PI 3.1415926536
 
-<<<<<<< HEAD
 //#define DEBUG
 #define DEBUG_IMU 7
 #define PAYLOAD
  
-=======
-#define DEBUG
-#define DEVICE
 
->>>>>>> f9bd6273ba1e81452e67c473eb411c01bfdce94b
 //Global Variable Declarations
 int delayTime;
 int buttonPin = 12;
@@ -66,13 +61,12 @@ Adafruit_BMP280 DeviceBMP;
 
 AK9750 movementSensor; //Hook object to the library
 
-<<<<<<< HEAD
+
 long teleTime;
 
 SoftwareSerial xbee(4, 3); // RX, TX
   
-=======
->>>>>>> f9bd6273ba1e81452e67c473eb411c01bfdce94b
+
 //Telemetry packet
 #ifdef DEVICE
 #define teleDeviceID 0
@@ -117,7 +111,7 @@ float telemetry[14];
 void setup() {
 
   //Debug State Function
-<<<<<<< HEAD
+
 
 Serial.begin(9600);
 
@@ -131,35 +125,17 @@ xbee.begin(9600);
     initAK();
     setupIMU();
   #endif
-=======
-#ifdef DEBUG
-  Serial.begin(9600);
-#endif
-  Serial1.begin(9600);
 
-#ifdef DEVICE
-  telemetry[teleDevice] = 2;
-  initDeviceIMU();
-  initDeviceBMP();
-#endif
-#ifdef PAYLOAD
-  telemetry[teleDevice] = 1;
-  //initAK();
- // initIMU();
-#endif
->>>>>>> f9bd6273ba1e81452e67c473eb411c01bfdce94b
 
   telemetry[teleDeviceID] = DeviceID;
   telemetry[teleCount] = 1;
 
   // put your setup code here, to run once
   initGlobalVariables();
-<<<<<<< HEAD
+
   pinMode(buttonPin, INPUT);
   //initPayloadIMU();
-=======
-  pinMode(buttonPin, INPUT_PULLUP);
->>>>>>> f9bd6273ba1e81452e67c473eb411c01bfdce94b
+
   setLocationReference();
 
   teleTime = millis();
@@ -168,7 +144,7 @@ xbee.begin(9600);
 
 void loop() {
 
-<<<<<<< HEAD
+
   if (millis() - teleTime < 1000){
     slam();
   } else {
@@ -180,8 +156,7 @@ void loop() {
     getDeivceBMPData();
     getDeviceIMUDATA();
   #endif
-=======
->>>>>>> f9bd6273ba1e81452e67c473eb411c01bfdce94b
+
 
 
 
@@ -194,25 +169,19 @@ void loop() {
 
 #ifdef PAYLOAD
   getAKData();
-<<<<<<< HEAD
+
   //getPayloadIMUDATA();
   #endif
-=======
-  updateLocation();
-  getBMPData();
-#endif
 
->>>>>>> f9bd6273ba1e81452e67c473eb411c01bfdce94b
 
   getGPSData();
   sendRadioData();
   teleTime = millis();
 
   telemetry[teleCount] = telemetry[teleCount] + 1; //increment the packet counter
-<<<<<<< HEAD
+
   }
-=======
->>>>>>> f9bd6273ba1e81452e67c473eb411c01bfdce94b
+
 }
 
 

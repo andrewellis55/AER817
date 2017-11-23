@@ -7,14 +7,11 @@ void sendRadioData() {
     xbee.print(telemetry[i]);
     xbee.print(',');
   }
-<<<<<<< HEAD
+
   
   xbee.println(' ');
-=======
 
-  Serial1.println(' ');
 #endif
->>>>>>> f9bd6273ba1e81452e67c473eb411c01bfdce94b
 
 #ifdef PAYLOAD  //SERIAL1 NEEDS TO BE CHANGED TO SOFTWARE SERIAL FOR XBEE OUTPUT ON PAYLOAD PCB
   for (int i = 0; i < teleSize; i++)

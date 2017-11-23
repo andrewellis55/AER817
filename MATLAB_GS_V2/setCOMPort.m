@@ -8,6 +8,7 @@ info = instrhwinfo('serial');
 availPorts = info.SerialPorts; % Returns matrix
 
 if (numel(availPorts) ~=0)
+    
     %COM1 Port
     set(handles.COMSelect, 'String', availPorts);
     set(handles.COMSelect, 'Value', numel(availPorts));
