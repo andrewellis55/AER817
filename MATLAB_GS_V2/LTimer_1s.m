@@ -33,7 +33,7 @@ function [] = LTimer_1s(src, evt, ard, ard2, csvfile, csvfilename, handles,table
 
         
         Update_GUIDateTimeDisplay(handles);
-      %  Update_EEG(handles);
+        %Update_EEG(handles);
         Update_GUIgraph(handles);
     
         
