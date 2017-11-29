@@ -15,11 +15,11 @@ function [triggered] = Update_EEG(handles, EEG_input)
 
 xdata = [1051,1300];
 group = ['r', 'p'];
-svmBlinkStruct = svmtrain(xdata,group);
+svmBlinkStruct = svmtrain(xdata,group,'ShowPlot',true);
  
 xdata = [950,1050];
 group = ['r', 'p'];
-svmPanicStruct = svmtrain(xdata,group);
+svmPanicStruct = svmtrain(xdata,group,'ShowPlot',true);
  
  
 % Sensor 1 blink check
@@ -30,23 +30,15 @@ end
 
 % Sensor 4 blink check
 sen4blink = svmclassify(svmBlinkStruct,EEG_input(end,4))
-if ( sen4blink == 'p')
-    triggered = 1;
-end
-
-% Sensor 1 Panic check
-sen1panic = svmclassify(svmPanicStruct,EEG_input(end,1))
-if ( sen1panic == 'p')
-    triggered = 1;
-end
-
-% Sensor 4 Panic check
-sen4panic = svmclassify(svmPanicStruct,EEG_input(end,4))
-if ( sen4panic == 'p')
+if (EEG_input(end,4) > 1000)
     triggered = 1;
 end
 
 
+%Panic Check
+xdata = [950,1050];
+group = ['r', 'p'];
+svmStruct = svmtrain(xdata,group,'ShowPlot',true);
 
 
 

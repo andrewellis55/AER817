@@ -27,7 +27,7 @@
 
 #define DEBUG
 //#define DEBUG_IMU 7
-#define DEVICE
+#define PAYLOAD
  
 
 //Global Variable Declarations
