@@ -11,9 +11,15 @@ function [] = LTimer_1s(src, evt, ard, ard2, csvfile, csvfilename, handles,table
         %csvfile = fopen(csvExt, 'a+'); 
         % Get new data to string variable from Arduino
         StringFromSerial = fscanf(ard, '%s');
-        StringFromSerial2 = fscanf(ard2,'%s');
         
-       
+       tableHandling(StringFromSerial, handles);
+    end    
+    if (ard2.BytesAvailable <= 0)
+        display('No New data in Serial2 port');
+    else
+        StringFromSerial2 = fscanf(ard2,'%s');
+        tableHandling(StringFromSerial2,handles);
+    end   
         
         
         %fprintf ('%s\n',StringFromSerial);
@@ -27,16 +33,15 @@ function [] = LTimer_1s(src, evt, ard, ard2, csvfile, csvfilename, handles,table
             
         % This function updates table depending on packet 
         % Condition: Glider or Container column 2.
-        
-        tableHandling(StringFromSerial, handles);
-        tableHandling(StringFromSerial2,handles);
+      
+      
 
         
-        Update_GUIDateTimeDisplay(handles);
-        %Update_EEG(handles);
+       Update_GUIDateTimeDisplay(handles);
+       
         Update_GUIgraph(handles);
     
         
         
-    end 
+    
 end

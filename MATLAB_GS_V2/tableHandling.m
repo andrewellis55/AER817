@@ -50,6 +50,7 @@ isDeployed = 0;
 pk = str2num(tele{3});
 
 if (ismember('1', tele{2}))
+   %if (pk > 2) 
     for i = 1:14
         matrix.payload(pk, i) = str2num(tele{i}) ;
     end
@@ -64,9 +65,12 @@ if (ismember('1', tele{2}))
    
 Payload_Data = matrix.payload;
 save('Payload.mat','Payload_Data');
+   % end
+
 
    
 elseif (ismember('2', tele{2}))
+   % if(pk>2)
 %     matrix.device(pk, 1) = str2num(tele{1});
 %     matrix.device(pk,2) = 0;
     for i = 1:11
@@ -82,7 +86,7 @@ elseif (ismember('2', tele{2}))
 %         msgbox('Panic has been deteceted! Deploy quadcopter.');
 
     else 
-        set(handles.deploymentButton, 'BackgroundColor','yellow');
+      %  set(handles.deploymentButton, 'BackgroundColor','yellow');
     end
     %modify
 
@@ -91,8 +95,8 @@ elseif (ismember('2', tele{2}))
    
    Device_Data = matrix.device;
    save('Device.mat','Device_Data');
+   % end
 end
-  
 
 end
 

@@ -14,12 +14,12 @@ function [blink] = Update_EEG(handles, EEG_input)
  blink = 0;
 
 % Sensor 1 blink check
-if ( EEG_input(end,1) > 1300)
+if ( EEG_input(end,1) > 1000)
     blink = 1;
 end
 
 % Sensor 4 blink check
-if (EEG_input(end,4) > 1300)
+if (EEG_input(end,4) > 1000)
     blink = 1;
 end
 

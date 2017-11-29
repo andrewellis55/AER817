@@ -94,6 +94,10 @@ conf1 = true;
 %figure()
 
 while true
+    if(length(eegBuffer(:,1)) > 4401)       
+    eegBuffer = zeros([1:(end-2200),numel(eegName)]);
+    end
+    
     if tcpFlag
         try %Catch Matlab error
             a = fread(tcpServer, 4);  %How large is the package (# bytes)
@@ -152,6 +156,8 @@ while true
             %More cases can be added to treat other paths
     end
     
+    
+     EEGPlot = [eegBuffer(:,1),eegBuffer(:,4)];
     %Plot every 44 EEG samples approx 200ms
     if eegCounter == 44
         if plot1
@@ -207,7 +213,7 @@ while true
         end
     end
     
-    EEGPlot = [eegBuffer(:,1),eegBuffer(:,4)];
+   
     EEGSource = get(handles.pumEEG, 'Value');
     switch EEGSource
         case 1
@@ -217,7 +223,7 @@ while true
         case 3
             EEG_Dropdown = handles.pumEEG.String(3);
     end
-    
+    EEGPlot = [];
 end %while true
 
 if tcpFlag

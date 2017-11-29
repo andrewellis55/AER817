@@ -11,7 +11,7 @@ function [ard, ard2] = connectFunction(comport,comport2, handles)
 %     cla(handles.Figure1);
 
     % Initial arduino connection setup and variable clear
-    delete(instrfind);
+     delete(instrfind);
     ard = serial(comport);
     set(ard, 'DataBits', 8);
     set(ard, 'StopBits', 1);
@@ -28,7 +28,7 @@ function [ard, ard2] = connectFunction(comport,comport2, handles)
 
     try %To stop and indicate that Radio is not connected
         fopen (ard); % Open comport
-        fopen(ard2);
+        fopen (ard2);
         error = false;
     catch %if there is an error in try
         error = true; 
@@ -46,9 +46,18 @@ function [ard, ard2] = connectFunction(comport,comport2, handles)
         csvfile =1;
 
         % Set up the timer class 
-        onesecCSVlogger = timer('TimerFcn',{@LTimer_1s, ard,ard2, csvfile, csvfilename, handles,table_filename},... 
+        onesecCSVlogger = timer('TimerFcn',{@LTimer_1s, ard, ard2, csvfile, csvfilename, handles,table_filename},... 
                                 'ExecutionMode','fixedRate','Period', 1); 
-                            
+             
+lonAxis = [-79.3832 -79.3765];                       
+latAxis = [43.6565 43.6603];
+refLat = 43.658786;
+refLon = -79.380268;
+device_markerLoc = char(strcat({num2str(refLat,8)},{' '},{num2str(refLon,8)}));
+payload_markerLoc = char(strcat({num2str(refLat,8)},{' '},{num2str(refLon,8)}));
+axis(handles.axMap,[lonAxis, latAxis]);
+plot_google_map('Axis',handles.axMap,'Marker',payload_markerLoc,'MapType','hybrid','AutoAxis',0);
+ 
  
         %Call csvlogger function every 1 sec period with ard(Serial port) and csvfilelog (name of csv file) as input 
         start (onesecCSVlogger);

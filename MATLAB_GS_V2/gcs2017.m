@@ -21,7 +21,7 @@ function varargout = gcs2017(varargin)
 
 % Edit the above text to modify the response to help gcs2017
 
-% Last Modified by GUIDE v2.5 21-Nov-2017 21:22:57
+% Last Modified by GUIDE v2.5 22-Nov-2017 21:42:30
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -66,9 +66,15 @@ axes (handles.logo);
 imshow ('SenseAlert_2.JPG');
 
 warning('off','all')
-lonAxis = [-79.3832 -79.3765];
-latAxis = [43.6565 43.6603];
-axis(handles.axMap,[lonAxis, latAxis])
+% lonAxis = [-79.3832 -79.3765];
+% latAxis = [43.6565 43.6603];
+% refLat = 43.658786;
+% refLon = -79.380268;
+% device_markerLoc = char(strcat({num2str(refLat,8)},{' '},{num2str(refLon,8)}));
+% payload_markerLoc = char(strcat({num2str(refLat,8)},{' '},{num2str(refLon,8)}));
+% axis(handles.axMap,[lonAxis, latAxis])
+% plot_google_map('Axis',handles.axMap,'Marker',payload_markerLoc,'MapType','hybrid','AutoAxis',0)
+%  
 global triggered
 triggered = 0;
 
@@ -130,13 +136,14 @@ global ard;
 selectedPort = get(handles.COMSelect,'Value');
 Portlist = get(handles.COMSelect,'String');
 comport = Portlist{selectedPort};
-%ard = connectFunction(comport2, handles);
+% ard = connectFunction(comport, handles);
 
 global ard2;
 selectedPort2 = get(handles.COM2Select,'Value');
 Portlist2 = get(handles.COM2Select,'String');
 comport2 = Portlist2{selectedPort2};
-[ard, ard2] = connectFunction(comport,comport2, handles);
+% ard2 = connectFunction(comport2, handles);
+[ard, ard2] = connectFunction(comport, comport2, handles);
 
 
 
@@ -429,3 +436,10 @@ function axEEG_CreateFcn(hObject, eventdata, handles)
 % handles    empty - handles not created until after all CreateFcns called
 
 % Hint: place code in OpeningFcn to populate axEEG
+
+
+% --- Executes on button press in arduinoConnectButton.
+function arduinoCallbackButton_Callback(hObject, eventdata, handles)
+% hObject    handle to arduinoConnectButton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
