@@ -13,10 +13,12 @@ function [triggered] = Update_EEG(handles, EEG_input)
 % Trigger Initialization
  triggered = 0;
 
+ %Blink Machine Learning SVM Initialization
 xdata = [1051,1300];
 group = ['r', 'p'];
 svmBlinkStruct = svmtrain(xdata,group);
  
+%Panic Machine Learning SVM Initialization
 xdata = [950,1050];
 group = ['r', 'p'];
 svmPanicStruct = svmtrain(xdata,group);
